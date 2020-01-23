@@ -3,6 +3,7 @@ exports.__esModule = true;
 var Grammar = /** @class */ (function () {
     function Grammar(grammar) {
         this.set = new Set();
+        this.terminals = new Array();
         var input = grammar.split("\n");
         for (var i = 0; i < input.length - 1; i++) {
             if (input[i].split(" -> ").length != 2) {
@@ -15,7 +16,10 @@ var Grammar = /** @class */ (function () {
             }
             this.set.add(input2[0]);
             var rex = new RegExp(input2[1], "gy");
+            this.terminals.push([input2[0], rex]);
         }
+        this.set.add("WHITESPACE");
+        this.terminals.push(["WHITESPACE", RegExp(" +", "gy")]);
     }
     return Grammar;
 }());
