@@ -36,6 +36,9 @@
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="nodetype.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="testharness.ts" />
     <TypeScriptCompile Include="token.ts">
       <SubType>Code</SubType>
