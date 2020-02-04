@@ -4,7 +4,7 @@ var Tokenizer_1 = require("./Tokenizer");
 var Grammar_1 = require("./Grammar");
 var fs = require("fs");
 function main() {
-    var teststr = fs.readFileSync("testcases.txt", "utf8");
+    var teststr = fs.readFileSync("tests.txt", "utf8");
     var tests = JSON.parse(teststr);
     var lastSpec;
     var G;
@@ -17,12 +17,13 @@ function main() {
         if (spec !== lastSpec) {
             G = new Grammar_1.Grammar(spec);
             T = new Tokenizer_1.Tokenizer(G);
-            console.log("Creating tokenizer...");
+            console.log("Creating tokenizer for " + tests[i]["gname"] + "...");
             lastSpec = spec;
         }
         else {
             console.log("Reusing tokenizer...");
         }
+        console.log("Input " + tests[i]["iname"]);
         T.setInput(inp);
         var j = 0;
         while (true) {

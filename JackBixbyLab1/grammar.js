@@ -19,7 +19,7 @@ var Grammar = /** @class */ (function () {
             this.terminals.push([input2[0], rex]);
         }
         this.set.add("WHITESPACE");
-        this.terminals.push(["WHITESPACE", RegExp(" +", "gy")]);
+        this.terminals.push(["WHITESPACE", RegExp(/\s/gy)]);
     }
     return Grammar;
 }());

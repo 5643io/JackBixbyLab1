@@ -18,10 +18,10 @@ export class Tokenizer {
         this.currentLine = 1;
     }
     next(): Token {
-        while (this.inputData[this.idx] === "\n") {
-            this.idx++;
-            this.currentLine++;
-        }
+        /*while (this.inputData[this.idx] === "\n") {
+            
+            //this.currentLine++;
+        }*/
         if (this.idx >= this.inputData.length) {
             //special "end of file" metatoken
             return new Token("$", undefined, this.currentLine);
@@ -36,12 +36,12 @@ export class Tokenizer {
             if (m) {
                 //m[0] contains matched text as string
                 let lexeme = m[0];
-                /*let str = lexeme.split("\n");
-                this.currentLine += str.length - 1;*/
+                let token = new Token(sym, lexeme, this.currentLine);
+                this.currentLine += (lexeme.match(/\n/g) || []).length;
                 this.idx += lexeme.length;
                 if (sym !== "WHITESPACE" && sym !== "COMMENT") {
                     //return new Token using sym, lexeme, and line number
-                    return new Token(sym, lexeme, this.currentLine);
+                    return token;
                 } else {
                     //skip whitespace and get next real token
                     return this.next();

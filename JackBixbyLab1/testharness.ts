@@ -1,4 +1,3 @@
-
 "use strict";
 
 //This test harness doesn't output many diagnostics when things break.
@@ -12,7 +11,7 @@ let fs = require("fs");
 
 
 function main() {
-    let teststr: string = fs.readFileSync("testcases.txt", "utf8");
+    let teststr: string = fs.readFileSync("tests.txt", "utf8");
     let tests = JSON.parse(teststr);
     let lastSpec: string;
     let G: Grammar;
@@ -26,11 +25,13 @@ function main() {
         if (spec !== lastSpec) {
             G = new Grammar(spec);
             T = new Tokenizer(G);
-            console.log("Creating tokenizer...");
+            console.log("Creating tokenizer for " + tests[i]["gname"] + "...");
             lastSpec = spec;
         } else {
             console.log("Reusing tokenizer...");
         }
+
+        console.log("Input " + tests[i]["iname"]);
         T.setInput(inp);
 
         let j = 0;
