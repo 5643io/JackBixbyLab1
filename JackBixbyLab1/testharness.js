@@ -33,3 +33,4 @@ function main() {
     console.log(tests.length + " tests OK");
 }
 main();
+//# sourceMappingURL=testharness.js.map

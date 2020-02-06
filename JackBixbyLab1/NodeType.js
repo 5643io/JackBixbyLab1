@@ -15,3 +15,4 @@ function dfs(N, v) {
             dfs(w, v);
     });
 }
+//# sourceMappingURL=nodetype.js.map
