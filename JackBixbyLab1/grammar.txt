@@ -1,0 +1,9 @@
+ID -> \w+
+NUM -> \\d+
+POWOP -> \*\*
+NEGATE -> [-]
+MULOP -> [*/]
+ADDOP -> [-+]
+LP -> [(]
+RP -> [)]
+BITNOT -> [~]

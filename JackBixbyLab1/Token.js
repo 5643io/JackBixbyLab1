@@ -15,4 +15,4 @@ var Token = /** @class */ (function () {
     return Token;
 }());
 exports.Token = Token;
-//# sourceMappingURL=token.js.map
+//# sourceMappingURL=Token.js.map

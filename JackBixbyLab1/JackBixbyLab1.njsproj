@@ -39,11 +39,17 @@
     <TypeScriptCompile Include="nodetype.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="shuntingyard.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="testharness.ts" />
     <TypeScriptCompile Include="token.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="tokenizer.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="TreeNode.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

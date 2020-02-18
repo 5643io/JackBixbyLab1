@@ -64,6 +64,9 @@ export class Grammar {
         const first_string = this.nonterminals.keys();
         dfs(first_string.next().value, this.nonterminals, visited, this.terminals);
         console.log("Visited Size: " + visited.size);
+        if (this.nonterminals.size == 0) {
+            return;
+        }
         for(let k of this.set.keys() ) {
             if (!visited.has(k) && k !== "WHITESPACE") {
                 throw new Error("Useless Production Found " + k);
@@ -73,14 +76,13 @@ export class Grammar {
 }
 
 function dfs(start: string, nonterminals: Map<string, string[]>, visited: Set<string>, terminals: Array<[string, RegExp]>) {
-    console.log("Start is: " + start);
     for (let j = 0; j < terminals.length; j++) {
         if (terminals[j][0] == start) {
             visited.add(start);
             return;
         }
     }
-    if (start == "") {
+    if (start == "" || start == undefined) {
         return;
     }
     if (!visited.has(start)) {

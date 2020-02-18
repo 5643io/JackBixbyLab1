@@ -76,6 +76,9 @@ var Grammar = /** @class */ (function () {
         var first_string = this.nonterminals.keys();
         dfs(first_string.next().value, this.nonterminals, visited, this.terminals);
         console.log("Visited Size: " + visited.size);
+        if (this.nonterminals.size == 0) {
+            return;
+        }
         try {
             for (var _b = __values(this.set.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var k = _c.value;
@@ -96,14 +99,13 @@ var Grammar = /** @class */ (function () {
 }());
 exports.Grammar = Grammar;
 function dfs(start, nonterminals, visited, terminals) {
-    console.log("Start is: " + start);
     for (var j = 0; j < terminals.length; j++) {
         if (terminals[j][0] == start) {
             visited.add(start);
             return;
         }
     }
-    if (start == "") {
+    if (start == "" || start == undefined) {
         return;
     }
     if (!visited.has(start)) {
