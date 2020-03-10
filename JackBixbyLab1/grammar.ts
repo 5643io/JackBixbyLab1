@@ -2,7 +2,11 @@ export class Grammar {
     set: Set<string>;
     terminals: Array<[string, RegExp]>;
     nonterminals: Map<string, string[][]>;
+    nullable: Set<string>;
+    first: Map<string, Set<string>>;
     constructor(grammar: string) {
+        this.nullable = new Set<string>();
+        this.first = new Map<string, Set<string>>();
         this.set = new Set();
         this.terminals = new Array<[string, RegExp]>();
         this.nonterminals = new Map<string, string[][]>();
@@ -107,7 +111,6 @@ export class Grammar {
     }
 
     getNullable() {
-        let nullable = new Set<string>();
         while (true) {
             let flag = true;
             this.nonterminals.forEach((v, k) => {
@@ -115,12 +118,12 @@ export class Grammar {
                     if (P.length == 1 && P[0] == "lambda") {
                         P = new Array<string>();
                     }
-                    if (!nullable.has(k)) {
+                    if (!this.nullable.has(k)) {
                         let horse = P.every((x: string) => {
-                            return nullable.has(x);
+                            return this.nullable.has(x);
                         });
                         if (horse) {
-                            nullable.add(k);
+                            this.nullable.add(k);
                             flag = false;
                         }
                     }
@@ -130,7 +133,27 @@ export class Grammar {
                 break;
             }
         }
-        return nullable;
+        return this.nullable;
+    }
+
+    getFirst(): Map<string, Set<string>>{
+        while (true) {
+            let flag = true;
+            this.nonterminals.forEach((v, k) => {
+                v.forEach((P: string[]) => {
+                        let horse = P.every((x: string) => {
+                            this.first.get(k).add(x);
+                            if (!this.nullable.has(x)) {
+                                flag = false;
+                            }
+                        });
+                });
+            });
+            if (flag) {
+                break;
+            }
+        }
+        return this.first;
     }
 }
 

@@ -2,6 +2,8 @@
 exports.__esModule = true;
 var Grammar = /** @class */ (function () {
     function Grammar(grammar) {
+        this.nullable = new Set();
+        this.first = new Map();
         this.set = new Set();
         this.terminals = new Array();
         this.nonterminals = new Map();
@@ -104,7 +106,7 @@ var Grammar = /** @class */ (function () {
         }*/
     }
     Grammar.prototype.getNullable = function () {
-        var nullable = new Set();
+        var _this = this;
         var _loop_1 = function () {
             var flag = true;
             this_1.nonterminals.forEach(function (v, k) {
@@ -112,12 +114,12 @@ var Grammar = /** @class */ (function () {
                     if (P.length == 1 && P[0] == "lambda") {
                         P = new Array();
                     }
-                    if (!nullable.has(k)) {
+                    if (!_this.nullable.has(k)) {
                         var horse = P.every(function (x) {
-                            return nullable.has(x);
+                            return _this.nullable.has(x);
                         });
                         if (horse) {
-                            nullable.add(k);
+                            _this.nullable.add(k);
                             flag = false;
                         }
                     }
@@ -133,7 +135,33 @@ var Grammar = /** @class */ (function () {
             if (state_1 === "break")
                 break;
         }
-        return nullable;
+        return this.nullable;
+    };
+    Grammar.prototype.getFirst = function () {
+        var _this = this;
+        var _loop_2 = function () {
+            var flag = true;
+            this_2.nonterminals.forEach(function (v, k) {
+                v.forEach(function (P) {
+                    var horse = P.every(function (x) {
+                        _this.first.get(k).add(x);
+                        if (!_this.nullable.has(x)) {
+                            flag = false;
+                        }
+                    });
+                });
+            });
+            if (flag) {
+                return "break";
+            }
+        };
+        var this_2 = this;
+        while (true) {
+            var state_2 = _loop_2();
+            if (state_2 === "break")
+                break;
+        }
+        return this.first;
     };
     return Grammar;
 }());
