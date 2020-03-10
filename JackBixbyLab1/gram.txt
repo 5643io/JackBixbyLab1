@@ -1,6 +1,6 @@
 grammar gram;
 SEMI : ';';
-COMMENT : ('//'~[\n]* -> skip | '/*' .*? '*/' -> skip);
+COMMENT : ('//'~[\n]* | '/*' .*? '*/' ) -> skip;
 WHILE : 'while';
 LP : [(];
 RP : [)];

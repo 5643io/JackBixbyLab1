@@ -62,10 +62,10 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002\u0002\u000256\u0005\u0006\u0004\u000267\u0005\u0004\u0003\u0002",
     "7:\u0003\u0002\u0002\u00028:\u0003\u0002\u0002\u000295\u0003\u0002\u0002",
     "\u000298\u0003\u0002\u0002\u0002:\u0005\u0003\u0002\u0002\u0002;G\u0005",
-    "\n\u0006\u0002<G\u0005\b\u0005\u0002=>\u0005\u000e\b\u0002>?\u0007\u0004",
+    "\n\u0006\u0002<G\u0005\b\u0005\u0002=>\u0005\u000e\b\u0002>?\u0007\u0003",
     "\u0002\u0002?G\u0003\u0002\u0002\u0002@A\u0005&\u0014\u0002AB\u0007",
-    "\u0004\u0002\u0002BG\u0003\u0002\u0002\u0002CD\u0005(\u0015\u0002DE",
-    "\u0007\u0004\u0002\u0002EG\u0003\u0002\u0002\u0002F;\u0003\u0002\u0002",
+    "\u0003\u0002\u0002BG\u0003\u0002\u0002\u0002CD\u0005(\u0015\u0002DE",
+    "\u0007\u0003\u0002\u0002EG\u0003\u0002\u0002\u0002F;\u0003\u0002\u0002",
     "\u0002F<\u0003\u0002\u0002\u0002F=\u0003\u0002\u0002\u0002F@\u0003\u0002",
     "\u0002\u0002FC\u0003\u0002\u0002\u0002G\u0007\u0003\u0002\u0002\u0002",
     "HI\u0007\u0005\u0002\u0002IJ\u0007\u0006\u0002\u0002JK\u0005\u0010\t",
@@ -120,7 +120,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u00a8\u0003\u0002\u0002\u0002\u00b0\u00ac\u0003\u0002\u0002\u0002\u00b0",
     "\u00ad\u0003\u0002\u0002\u0002\u00b0\u00ae\u0003\u0002\u0002\u0002\u00b0",
     "\u00af\u0003\u0002\u0002\u0002\u00b1!\u0003\u0002\u0002\u0002\u00b2",
-    "\u00b3\u0005$\u0013\u0002\u00b3\u00b4\u0007\u0004\u0002\u0002\u00b4",
+    "\u00b3\u0005$\u0013\u0002\u00b3\u00b4\u0007\u0003\u0002\u0002\u00b4",
     "\u00b5\u0005\"\u0012\u0002\u00b5\u00b8\u0003\u0002\u0002\u0002\u00b6",
     "\u00b8\u0003\u0002\u0002\u0002\u00b7\u00b2\u0003\u0002\u0002\u0002\u00b7",
     "\u00b6\u0003\u0002\u0002\u0002\u00b8#\u0003\u0002\u0002\u0002\u00b9",
@@ -169,13 +169,13 @@ var decisionsToDFA = atn.decisionToState.map( function(ds, index) { return new a
 
 var sharedContextCache = new antlr4.PredictionContextCache();
 
-var literalNames = [ null, null, "';'", "'while'", null, null, "'if'", "'else'", 
+var literalNames = [ null, "';'", null, "'while'", null, null, "'if'", "'else'", 
                      "'return'", null, null, null, null, "'or'", "'and'", 
                      "'not'", null, "'='", null, null, "'-'", "','", null, 
                      null, "'print'", "'input'", "'open'", "'read'", "'write'", 
                      "'close'" ];
 
-var symbolicNames = [ null, "COMMENT", "SEMI", "WHILE", "LP", "RP", "IF", 
+var symbolicNames = [ null, "SEMI", "COMMENT", "WHILE", "LP", "RP", "IF", 
                       "ELSE", "RETURN", "LBR", "RBR", "FPNUM", "NUM", "OR", 
                       "AND", "NOT", "RELOP", "EQ", "PLUS", "MULOP", "MINUS", 
                       "CMA", "TYPE", "STRING_CONSTANT", "PRINT", "INPUT", 
@@ -206,8 +206,8 @@ Object.defineProperty(gramParser.prototype, "atn", {
 });
 
 gramParser.EOF = antlr4.Token.EOF;
-gramParser.COMMENT = 1;
-gramParser.SEMI = 2;
+gramParser.SEMI = 1;
+gramParser.COMMENT = 2;
 gramParser.WHILE = 3;
 gramParser.LP = 4;
 gramParser.RP = 5;

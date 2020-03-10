@@ -15,7 +15,7 @@ class ErrorHandler {
     }
 }
 
-function parse(txt: string) {
+export function parse(txt: string) {
     let stream = new antlr4.InputStream(txt);
     let lexer = new Lexer(stream);
     let tokens = new antlr4.CommonTokenStream(lexer);
@@ -27,8 +27,9 @@ function parse(txt: string) {
     lexer.addErrorListener(handler);
     parser.removeErrorListeners()
     parser.addErrorListener(handler);
-    let antlrroot = parser.start();
+    let antlrroot = parser.program();
     let root: TreeNode = walk(parser, antlrroot);
+    return root;
 }
 
 function walk(parser: any, node: any) {

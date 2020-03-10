@@ -26,9 +26,11 @@ function parse(txt) {
     lexer.addErrorListener(handler);
     parser.removeErrorListeners();
     parser.addErrorListener(handler);
-    var antlrroot = parser.start();
+    var antlrroot = parser.program();
     var root = walk(parser, antlrroot);
+    return root;
 }
+exports.parse = parse;
 function walk(parser, node) {
     var p = node.getPayload();
     if (p.ruleIndex === undefined) {
