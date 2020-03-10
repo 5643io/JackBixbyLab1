@@ -34,8 +34,6 @@ function setsAreSame(s1, s2) {
     });
     L1.sort();
     L2.sort();
-    console.log(L1);
-    console.log(L2);
     if (L1.length !== L2.length)
         return false;
     for (var i = 0; i < L1.length; ++i) {
