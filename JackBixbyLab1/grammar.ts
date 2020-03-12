@@ -94,6 +94,7 @@ export class Grammar {
                 this.nonterminals.set(input2[0].trim(), input4);
             }
         }
+        this.getNullable();
         //console.log(this.nonterminals);
         //console.log(this.terminals);
         /*let visited = new Set<string>();
@@ -119,10 +120,10 @@ export class Grammar {
                         P = new Array<string>();
                     }
                     if (!this.nullable.has(k)) {
-                        let horse = P.every((x: string) => {
+                        let cur = P.every((x: string) => {
                             return this.nullable.has(x);
                         });
-                        if (horse) {
+                        if (cur) {
                             this.nullable.add(k);
                             flag = false;
                         }
@@ -137,18 +138,32 @@ export class Grammar {
     }
 
     getFirst(): Map<string, Set<string>>{
+        this.terminals.forEach((v, k) => {
+            let set = new Set<string>();
+            set.add(v[0]);
+            this.first.set(v[0], set);
+        });
+        this.nonterminals.forEach((v, k) => {
+            let set = new Set<string>();
+            this.first.set(k, set);
+        });
         while (true) {
-            let flag = true;
+            let flag = false;
             this.nonterminals.forEach((v, k) => {
                 v.forEach((P: string[]) => {
-                        let horse = P.every((x: string) => {
+                    let cur = P.every((x: string) => {
+                        this.first.get(x).forEach((s: string) => {
+                            this.first.get(x).add(s);
+                        });
                             this.first.get(k).add(x);
                             if (!this.nullable.has(x)) {
-                                flag = false;
+                                flag = true;
+                                return false;
                             }
                         });
                 });
             });
+            this.first.delete("WHITESPACE");
             if (flag) {
                 break;
             }

@@ -90,6 +90,7 @@ var Grammar = /** @class */ (function () {
                 this.nonterminals.set(input2[0].trim(), input4);
             }
         }
+        this.getNullable();
         //console.log(this.nonterminals);
         //console.log(this.terminals);
         /*let visited = new Set<string>();
@@ -115,10 +116,10 @@ var Grammar = /** @class */ (function () {
                         P = new Array();
                     }
                     if (!_this.nullable.has(k)) {
-                        var horse = P.every(function (x) {
+                        var cur = P.every(function (x) {
                             return _this.nullable.has(x);
                         });
-                        if (horse) {
+                        if (cur) {
                             _this.nullable.add(k);
                             flag = false;
                         }
@@ -139,18 +140,32 @@ var Grammar = /** @class */ (function () {
     };
     Grammar.prototype.getFirst = function () {
         var _this = this;
+        this.terminals.forEach(function (v, k) {
+            var set = new Set();
+            set.add(v[0]);
+            _this.first.set(v[0], set);
+        });
+        this.nonterminals.forEach(function (v, k) {
+            var set = new Set();
+            _this.first.set(k, set);
+        });
         var _loop_2 = function () {
-            var flag = true;
+            var flag = false;
             this_2.nonterminals.forEach(function (v, k) {
                 v.forEach(function (P) {
-                    var horse = P.every(function (x) {
+                    var cur = P.every(function (x) {
+                        _this.first.get(x).forEach(function (s) {
+                            _this.first.get(x).add(s);
+                        });
                         _this.first.get(k).add(x);
                         if (!_this.nullable.has(x)) {
-                            flag = false;
+                            flag = true;
+                            return false;
                         }
                     });
                 });
             });
+            this_2.first["delete"]("WHITESPACE");
             if (flag) {
                 return "break";
             }
