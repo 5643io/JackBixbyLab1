@@ -2,7 +2,7 @@
 
 declare var require: any;
 let fs = require("fs");
-import { parse } from "./parse";
+import { parse } from "./parser";
 
 function main() {
     let inp = fs.readFileSync("input1.txt", "utf8");
