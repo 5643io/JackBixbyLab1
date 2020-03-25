@@ -5,7 +5,8 @@
     <Name>JackBixbyLab1</Name>
     <RootNamespace>JackBixbyLab1</RootNamespace>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
-    <Environment>NODE_PATH=.</Environment>
+    <Environment>NODE_PATH=.
+</Environment>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
