@@ -91,6 +91,10 @@ export class Grammar {
             if (this.nonterminals.has(input2[0].trim())) {
                 this.nonterminals.get(input2[0].trim()).concat(input4);
             } else {
+                input4.forEach((horse) => {
+                    if (horse[0] == "lambda") {
+                    }
+                });
                 this.nonterminals.set(input2[0].trim(), input4);
             }
         }
@@ -148,17 +152,23 @@ export class Grammar {
             this.first.set(k, set);
         });
         while (true) {
-            let flag = false;
+            let flag = true;
             this.nonterminals.forEach((v, k) => {
                 v.forEach((P: string[]) => {
-                    let cur = P.every((x: string) => {
+                    if (P.length == 1 && P[0] == "lambda") {
+                        P = new Array<string>();
+                    }
+                    P.every((x: string) => {
                         this.first.get(x).forEach((s: string) => {
-                            this.first.get(x).add(s);
+                            if (!this.first.get(k).has(s)) {
+                                flag = false;
+                                this.first.get(k).add(s);
+                                
+                            }
                         });
-                            this.first.get(k).add(x);
-                            if (!this.nullable.has(x)) {
-                                flag = true;
-                                return false;
+                            //this.first.get(k).add(x); //is this line needed?
+                        if (this.nullable.has(x)) {
+                                return true;
                             }
                         });
                 });
@@ -168,6 +178,7 @@ export class Grammar {
                 break;
             }
         }
+        //console.log(this.first);
         return this.first;
     }
 }

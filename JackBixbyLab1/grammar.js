@@ -87,6 +87,10 @@ var Grammar = /** @class */ (function () {
                 this.nonterminals.get(input2[0].trim()).concat(input4);
             }
             else {
+                input4.forEach(function (horse) {
+                    if (horse[0] == "lambda") {
+                    }
+                });
                 this.nonterminals.set(input2[0].trim(), input4);
             }
         }
@@ -150,17 +154,22 @@ var Grammar = /** @class */ (function () {
             _this.first.set(k, set);
         });
         var _loop_2 = function () {
-            var flag = false;
+            var flag = true;
             this_2.nonterminals.forEach(function (v, k) {
                 v.forEach(function (P) {
-                    var cur = P.every(function (x) {
+                    if (P.length == 1 && P[0] == "lambda") {
+                        P = new Array();
+                    }
+                    P.every(function (x) {
                         _this.first.get(x).forEach(function (s) {
-                            _this.first.get(x).add(s);
+                            if (!_this.first.get(k).has(s)) {
+                                flag = false;
+                                _this.first.get(k).add(s);
+                            }
                         });
-                        _this.first.get(k).add(x);
-                        if (!_this.nullable.has(x)) {
-                            flag = true;
-                            return false;
+                        //this.first.get(k).add(x); //is this line needed?
+                        if (_this.nullable.has(x)) {
+                            return true;
                         }
                     });
                 });
@@ -176,6 +185,7 @@ var Grammar = /** @class */ (function () {
             if (state_2 === "break")
                 break;
         }
+        //console.log(this.first);
         return this.first;
     };
     return Grammar;
