@@ -26,7 +26,7 @@ export class TreeNode {
         L.push(`node [fontname="Helvetica",shape=box];`);
         let counter = 0;
         walk(this, (n: any) => {
-            n.NUMBER = "n" + (counter++);
+            n.NUMBER = n.sym + (counter++);
             let tmp = n.sym;
             if (n.token) {
                 tmp += "\n";

@@ -1,5 +1,5 @@
-COMMENT=1
-SEMI=2
+SEMI=1
+COMMENT=2
 WHILE=3
 LP=4
 RP=5
@@ -29,7 +29,7 @@ WRITE=28
 CLOSE=29
 ID=30
 WHITESPACE=31
-';'=2
+';'=1
 'while'=3
 'if'=6
 'else'=7

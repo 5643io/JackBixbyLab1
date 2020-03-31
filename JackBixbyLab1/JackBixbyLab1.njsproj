@@ -41,7 +41,7 @@
     <TypeScriptCompile Include="nodetype.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="parse.ts">
+    <TypeScriptCompile Include="parser.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="shuntingyard.ts">

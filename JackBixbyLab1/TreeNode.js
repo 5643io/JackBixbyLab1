@@ -21,7 +21,7 @@ var TreeNode = /** @class */ (function () {
         L.push("node [fontname=\"Helvetica\",shape=box];");
         var counter = 0;
         walk(this, function (n) {
-            n.NUMBER = "n" + (counter++);
+            n.NUMBER = n.sym + (counter++);
             var tmp = n.sym;
             if (n.token) {
                 tmp += "\n";

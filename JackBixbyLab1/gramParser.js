@@ -62,10 +62,10 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002\u0002\u000256\u0005\u0006\u0004\u000267\u0005\u0004\u0003\u0002",
     "7:\u0003\u0002\u0002\u00028:\u0003\u0002\u0002\u000295\u0003\u0002\u0002",
     "\u000298\u0003\u0002\u0002\u0002:\u0005\u0003\u0002\u0002\u0002;G\u0005",
-    "\n\u0006\u0002<G\u0005\b\u0005\u0002=>\u0005\u000e\b\u0002>?\u0007\u0004",
+    "\n\u0006\u0002<G\u0005\b\u0005\u0002=>\u0005\u000e\b\u0002>?\u0007\u0003",
     "\u0002\u0002?G\u0003\u0002\u0002\u0002@A\u0005&\u0014\u0002AB\u0007",
-    "\u0004\u0002\u0002BG\u0003\u0002\u0002\u0002CD\u0005(\u0015\u0002DE",
-    "\u0007\u0004\u0002\u0002EG\u0003\u0002\u0002\u0002F;\u0003\u0002\u0002",
+    "\u0003\u0002\u0002BG\u0003\u0002\u0002\u0002CD\u0005(\u0015\u0002DE",
+    "\u0007\u0003\u0002\u0002EG\u0003\u0002\u0002\u0002F;\u0003\u0002\u0002",
     "\u0002F<\u0003\u0002\u0002\u0002F=\u0003\u0002\u0002\u0002F@\u0003\u0002",
     "\u0002\u0002FC\u0003\u0002\u0002\u0002G\u0007\u0003\u0002\u0002\u0002",
     "HI\u0007\u0005\u0002\u0002IJ\u0007\u0006\u0002\u0002JK\u0005\u0010\t",
@@ -78,14 +78,14 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\\N\u0003\u0002\u0002\u0002\\T\u0003\u0002\u0002\u0002]\u000b\u0003",
     "\u0002\u0002\u0002^_\u0007\u000b\u0002\u0002_`\u0005\u0004\u0003\u0002",
     "`a\u0007\f\u0002\u0002a\r\u0003\u0002\u0002\u0002bc\u0007\n\u0002\u0002",
-    "cd\u0005\u0010\t\u0002d\u000f\u0003\u0002\u0002\u0002ef\u0005\u0012",
-    "\n\u0002f\u0011\u0003\u0002\u0002\u0002gh\b\n\u0001\u0002hi\u0005\u0014",
-    "\u000b\u0002io\u0003\u0002\u0002\u0002jk\f\u0004\u0002\u0002kl\u0007",
-    "\u000f\u0002\u0002ln\u0005\u0014\u000b\u0002mj\u0003\u0002\u0002\u0002",
-    "nq\u0003\u0002\u0002\u0002om\u0003\u0002\u0002\u0002op\u0003\u0002\u0002",
-    "\u0002p\u0013\u0003\u0002\u0002\u0002qo\u0003\u0002\u0002\u0002rs\b",
-    "\u000b\u0001\u0002st\u0005\u0016\f\u0002tz\u0003\u0002\u0002\u0002u",
-    "v\f\u0004\u0002\u0002vw\u0007\u0010\u0002\u0002wy\u0005\u0016\f\u0002",
+    "cd\u0005\u0010\t\u0002d\u000f\u0003\u0002\u0002\u0002ef\u0007\u000e",
+    "\u0002\u0002f\u0011\u0003\u0002\u0002\u0002gh\b\n\u0001\u0002hi\u0005",
+    "\u0014\u000b\u0002io\u0003\u0002\u0002\u0002jk\f\u0004\u0002\u0002k",
+    "l\u0007\u000f\u0002\u0002ln\u0005\u0014\u000b\u0002mj\u0003\u0002\u0002",
+    "\u0002nq\u0003\u0002\u0002\u0002om\u0003\u0002\u0002\u0002op\u0003\u0002",
+    "\u0002\u0002p\u0013\u0003\u0002\u0002\u0002qo\u0003\u0002\u0002\u0002",
+    "rs\b\u000b\u0001\u0002st\u0005\u0016\f\u0002tz\u0003\u0002\u0002\u0002",
+    "uv\f\u0004\u0002\u0002vw\u0007\u0010\u0002\u0002wy\u0005\u0016\f\u0002",
     "xu\u0003\u0002\u0002\u0002y|\u0003\u0002\u0002\u0002zx\u0003\u0002\u0002",
     "\u0002z{\u0003\u0002\u0002\u0002{\u0015\u0003\u0002\u0002\u0002|z\u0003",
     "\u0002\u0002\u0002}~\u0007\u0011\u0002\u0002~\u0081\u0005\u0016\f\u0002",
@@ -120,7 +120,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u00a8\u0003\u0002\u0002\u0002\u00b0\u00ac\u0003\u0002\u0002\u0002\u00b0",
     "\u00ad\u0003\u0002\u0002\u0002\u00b0\u00ae\u0003\u0002\u0002\u0002\u00b0",
     "\u00af\u0003\u0002\u0002\u0002\u00b1!\u0003\u0002\u0002\u0002\u00b2",
-    "\u00b3\u0005$\u0013\u0002\u00b3\u00b4\u0007\u0004\u0002\u0002\u00b4",
+    "\u00b3\u0005$\u0013\u0002\u00b3\u00b4\u0007\u0003\u0002\u0002\u00b4",
     "\u00b5\u0005\"\u0012\u0002\u00b5\u00b8\u0003\u0002\u0002\u0002\u00b6",
     "\u00b8\u0003\u0002\u0002\u0002\u00b7\u00b2\u0003\u0002\u0002\u0002\u00b7",
     "\u00b6\u0003\u0002\u0002\u0002\u00b8#\u0003\u0002\u0002\u0002\u00b9",
@@ -169,13 +169,13 @@ var decisionsToDFA = atn.decisionToState.map( function(ds, index) { return new a
 
 var sharedContextCache = new antlr4.PredictionContextCache();
 
-var literalNames = [ null, null, "';'", "'while'", null, null, "'if'", "'else'", 
+var literalNames = [ null, "';'", null, "'while'", null, null, "'if'", "'else'", 
                      "'return'", null, null, null, null, "'or'", "'and'", 
                      "'not'", null, "'='", null, null, "'-'", "','", null, 
                      null, "'print'", "'input'", "'open'", "'read'", "'write'", 
                      "'close'" ];
 
-var symbolicNames = [ null, "COMMENT", "SEMI", "WHILE", "LP", "RP", "IF", 
+var symbolicNames = [ null, "SEMI", "COMMENT", "WHILE", "LP", "RP", "IF", 
                       "ELSE", "RETURN", "LBR", "RBR", "FPNUM", "NUM", "OR", 
                       "AND", "NOT", "RELOP", "EQ", "PLUS", "MULOP", "MINUS", 
                       "CMA", "TYPE", "STRING_CONSTANT", "PRINT", "INPUT", 
@@ -206,8 +206,8 @@ Object.defineProperty(gramParser.prototype, "atn", {
 });
 
 gramParser.EOF = antlr4.Token.EOF;
-gramParser.COMMENT = 1;
-gramParser.SEMI = 2;
+gramParser.SEMI = 1;
+gramParser.COMMENT = 2;
 gramParser.WHILE = 3;
 gramParser.LP = 4;
 gramParser.RP = 5;
@@ -894,8 +894,8 @@ function ExprContext(parser, parent, invokingState) {
 ExprContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
 ExprContext.prototype.constructor = ExprContext;
 
-ExprContext.prototype.orexp = function() {
-    return this.getTypedRuleContext(OrexpContext,0);
+ExprContext.prototype.NUM = function() {
+    return this.getToken(gramParser.NUM, 0);
 };
 
 ExprContext.prototype.enterRule = function(listener) {
@@ -922,7 +922,7 @@ gramParser.prototype.expr = function() {
     try {
         this.enterOuterAlt(localctx, 1);
         this.state = 99;
-        this.orexp(0);
+        this.match(gramParser.NUM);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -2188,19 +2188,7 @@ gramParser.prototype.optional_exprlist = function() {
             this.enterOuterAlt(localctx, 1);
 
             break;
-        case gramParser.LP:
-        case gramParser.FPNUM:
         case gramParser.NUM:
-        case gramParser.NOT:
-        case gramParser.MINUS:
-        case gramParser.STRING_CONSTANT:
-        case gramParser.PRINT:
-        case gramParser.INPUT:
-        case gramParser.OPEN:
-        case gramParser.READ:
-        case gramParser.WRITE:
-        case gramParser.CLOSE:
-        case gramParser.ID:
             this.enterOuterAlt(localctx, 2);
             this.state = 200;
             this.exprlist(0);
