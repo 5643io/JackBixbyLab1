@@ -15,6 +15,12 @@ var ErrorHandler = /** @class */ (function () {
     };
     return ErrorHandler;
 }());
+var VarType;
+(function (VarType) {
+    VarType[VarType["STRING"] = 0] = "STRING";
+    VarType[VarType["INTEGER"] = 1] = "INTEGER";
+    VarType[VarType["FLOAT"] = 2] = "FLOAT";
+})(VarType = exports.VarType || (exports.VarType = {}));
 function parse(txt) {
     var stream = new antlr4.InputStream(txt);
     var lexer = new Lexer(stream);
@@ -95,13 +101,196 @@ function stmtNodeCode(n) {
 function returnstmtNodeCode(n) {
     //return-stmt -> RETURN expr
     exprNodeCode(n.children[1]);
-    //...move result from expr to rax...
+    emit("pop rax");
     emit("ret");
 }
-function exprNodeCode(n) {
+/*function exprNodeCode(n: TreeNode) {
     //expr -> NUM
-    var d = parseInt(n.children[0].token.lexeme, 10);
-    emit("mov rax, " + d);
+    let d = parseInt(n.children[0].token.lexeme, 10);
+    emit(`push qword ${d}`);
+}*/
+function exprNodeCode(n) {
+    return orexpNodeCode(n.children[0]);
+}
+function orexpNodeCode(n) {
+    //orexp -> orexp OR andexp | andexp
+    if (n.children.length === 1) {
+        return andexpNodeCode(n.children[0]);
+    }
+    else {
+        var orexpType = orexpNodeCode(n.children[0]);
+        convertStackTopToZeroOrOneInteger(orexpType);
+        var lbl = label();
+        emit("cmp qword [rsp], 0");
+        emit("jne " + lbl);
+        emit("add rsp,8"); //discard left result (0)
+        var andexpType = andexpNodeCode(n.children[2]);
+        convertStackTopToZeroOrOneInteger(andexpType);
+        emit(lbl + ":");
+        return VarType.INTEGER; //always integer, even if float operands
+    }
+}
+function andexpNodeCode(n) {
+    //orexp -> orexp OR andexp | andexp
+    if (n.children.length === 1) {
+        return notexpNodeCode(n.children[0]);
+    }
+    else {
+        var andexpType = andexpNodeCode(n.children[0]);
+        convertStackTopToZeroOrOneInteger(andexpType);
+        var lbl = label();
+        emit("cmp qword [rsp], 0");
+        emit("je " + lbl);
+        emit("add rsp,8"); //discard left result (0)
+        var notexpType = notexpNodeCode(n.children[2]);
+        convertStackTopToZeroOrOneInteger(notexpType);
+        emit(lbl + ":");
+        return VarType.INTEGER; //always integer, even if float operands
+    }
+}
+function notexpNodeCode(n) {
+    if (n.children.length === 1) {
+        return relexpNodeCode(n.children[0]);
+    }
+    else {
+        var notexpType = notexpNodeCode(n.children[1]);
+        convertStackTopToZeroOrOneInteger(notexpType);
+        var lbl = label();
+        var lbl2 = label();
+        emit("cmp qword [rsp], 1");
+        emit("je " + lbl);
+        emit("add rsp,8"); //discard left result (0)
+        emit("push 1");
+        //convertStackTopToZeroOrOneInteger(notexpType);
+        emit("jmp " + lbl2);
+        emit(lbl + ":");
+        emit("add rsp,8"); //discard left result (0)
+        emit("push 0");
+        //convertStackTopToZeroOrOneInteger(notexpType);
+        emit(lbl2 + ":");
+        return VarType.INTEGER; //always integer, even if float operands
+    }
+}
+function relexpNodeCode(n) {
+    //rel |rarr| sum RELOP sum | sum
+    if (n.children.length === 1)
+        return sumNodeCode(n.children[0]);
+    else {
+        var sum1Type = sumNodeCode(n.children[0]);
+        var sum2Type = sumNodeCode(n.children[2]);
+        if (sum1Type !== VarType.INTEGER || sum2Type != VarType.INTEGER)
+            throw new Error;
+        emit("pop rax"); //second operand
+        //first operand is on stack
+        emit("cmp [rsp],rax"); //do the compare
+        switch (n.children[1].token.lexeme) {
+            case ">=":
+                emit("setge al");
+                break;
+            case "<=":
+                emit("setle al");
+                break;
+            case ">":
+                emit("setg  al");
+                break;
+            case "<":
+                emit("setl  al");
+                break;
+            case "==":
+                emit("sete  al");
+                break;
+            case "!=":
+                emit("setne al");
+                break;
+            default: ICE();
+        }
+        emit("movzx qword rax, al"); //move with zero extend
+        emit("mov [rsp], rax");
+        return VarType.INTEGER;
+    }
+}
+function sumNodeCode(n) {
+    //sum -> sum PLUS term | sum MINUS term | term
+    if (n.children.length === 1)
+        return termNodeCode(n.children[0]);
+    else {
+        var sumType = sumNodeCode(n.children[0]);
+        var termType = termNodeCode(n.children[2]);
+        if (sumType !== VarType.INTEGER || termType != VarType.INTEGER)
+            throw new Error;
+        emit("pop rbx"); //second operand
+        emit("pop rax"); //first operand
+        switch (n.children[1].sym) {
+            case "PLUS":
+                emit("add rax, rbx");
+                break;
+            case "MINUS":
+                emit("sub rax, rbx");
+                break;
+            default:
+                ICE;
+        }
+        emit("push rax");
+        return VarType.INTEGER;
+    }
+}
+function termNodeCode(n) {
+    //sum -> sum PLUS term | sum MINUS term | term
+    if (n.children.length === 1)
+        return negNodeCode(n.children[0]);
+    else {
+        var termType = termNodeCode(n.children[0]);
+        var negType = negNodeCode(n.children[2]);
+        if (termType !== VarType.INTEGER || negType != VarType.INTEGER)
+            throw new Error;
+        emit("pop rbx"); //second operand
+        emit("pop rax"); //first operand
+        emit("mov rdx, 0");
+        switch (n.children[1].token.lexeme) {
+            case "*":
+                emit("imul rax, rbx");
+                break;
+            case "/":
+                emit("idiv rbx");
+                break;
+            case "%":
+                emit("idiv rbx");
+                emit("mov rax, rdx");
+                break;
+            default:
+                ICE();
+        }
+        emit("push rax");
+        return VarType.INTEGER;
+    }
+}
+function negNodeCode(n) {
+    if (n.children.length === 1)
+        return factorNodeCode(n.children[0]);
+    else {
+        var negType = negNodeCode(n.children[1]);
+        if (negType != VarType.INTEGER)
+            throw new Error;
+        emit("pop rax"); //first operand
+        emit("neg rax");
+        emit("push rax");
+        return VarType.INTEGER;
+    }
+}
+function factorNodeCode(n) {
+    //factor -> NUM | LP expr RP
+    var child = n.children[0];
+    console.log(n);
+    switch (child.sym) {
+        case "NUM":
+            var v = parseInt(child.token.lexeme, 10);
+            emit("push qword " + v);
+            return VarType.INTEGER;
+        case "LP":
+            return exprNodeCode(n.children[1]);
+        default:
+            ICE();
+    }
 }
 var labelCounter = 0;
 function label() {
@@ -114,7 +303,8 @@ function condNodeCode(n) {
     //  IF LP expr RP braceblock ELSE braceblock
     if (n.children.length === 5) {
         //no 'else'
-        exprNodeCode(n.children[2]); //leaves result in rax
+        exprNodeCode(n.children[2]); //leaves result on stack
+        emit("pop rax");
         emit("cmp rax, 0");
         var endifLabel = label();
         emit("je " + endifLabel);
@@ -123,6 +313,7 @@ function condNodeCode(n) {
     }
     else {
         exprNodeCode(n.children[2]); //leaves result in rax
+        emit("pop rax"); // probably same as up above line
         emit("cmp rax, 0");
         var elseLabel = label();
         emit("je " + elseLabel);
@@ -138,6 +329,7 @@ function loopNodeCode(n) {
     var startLabel = label();
     emit(startLabel + ":");
     exprNodeCode(n.children[2]); //leaves result in rax
+    emit("pop rax");
     emit("cmp rax, 0");
     var endLabel = label();
     emit("je " + endLabel);
@@ -162,5 +354,16 @@ function makeAsm(root) {
     emit("ret");
     emit("section .data");
     return asmCode + "\n";
+}
+function convertStackTopToZeroOrOneInteger(type) {
+    if (type == VarType.INTEGER) {
+        emit("cmp qword [rsp], 0");
+        emit("setne al");
+        emit("movzx rax, al");
+        emit("mov [rsp], rax");
+    }
+    else {
+        throw new Error;
+    }
 }
 //# sourceMappingURL=parser.js.map
