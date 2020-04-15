@@ -20,10 +20,10 @@ function main() {
     var numFailed = 0;
     for (var i = 0; i < tests.length; ++i) {
         var name_1 = tests[i]["name"];
-        var expected = tests[i]["first"];
+        var expected = tests[i]["follow"];
         var input = tests[i]["input"];
         var G = new Grammar_1.Grammar(input);
-        var first = G.getFirst();
+        var first = G.getFollow();
         if (!dictionariesAreSame(expected, first)) {
             console.log("Test " + name_1 + " failed");
             ++numFailed;

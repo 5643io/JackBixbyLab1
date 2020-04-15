@@ -4,6 +4,7 @@ var Grammar = /** @class */ (function () {
     function Grammar(grammar) {
         this.nullable = new Set();
         this.first = new Map();
+        this.follow = new Map();
         this.set = new Set();
         this.terminals = new Array();
         this.nonterminals = new Map();
@@ -44,6 +45,7 @@ var Grammar = /** @class */ (function () {
             this.set.add(input2[0].trim());
         }
         var final_i = back_i;
+        var flag = true;
         for (back_i++; back_i < input.length - 1; back_i++) {
             var input2 = input[back_i].split("->");
             input2.forEach(function (val) {
@@ -51,6 +53,10 @@ var Grammar = /** @class */ (function () {
             });
             if (input2.length !== 2) {
                 continue;
+            }
+            if (flag) {
+                this.start = input2[0];
+                flag = false;
             }
             /*let input3 = input2[1].split("|");
             input3.forEach((val) => {
@@ -95,6 +101,7 @@ var Grammar = /** @class */ (function () {
             }
         }
         this.getNullable();
+        this.getFirst();
         //console.log(this.nonterminals);
         //console.log(this.terminals);
         /*let visited = new Set<string>();
@@ -187,6 +194,81 @@ var Grammar = /** @class */ (function () {
         }
         //console.log(this.first);
         return this.first;
+    };
+    Grammar.prototype.getFollow = function () {
+        var _this = this;
+        var set = new Set();
+        set.add("$");
+        this.follow.set(this.start, set);
+        var _loop_3 = function () {
+            var flag = true;
+            this_3.nonterminals.forEach(function (v, k) {
+                v.forEach(function (P) {
+                    if (P.length == 1 && P[0] == "lambda") {
+                        P = new Array();
+                    }
+                    var _loop_4 = function (i) {
+                        var loop_flag = false;
+                        var x = P[i];
+                        if (!_this.follow.has(x)) {
+                            _this.follow.set(x, new Set());
+                        }
+                        if (_this.nonterminals.has(x)) {
+                            for (var j = i + 1; j < P.length; j++) {
+                                var y = P[j];
+                                _this.first.get(y).forEach(function (s) {
+                                    if (!_this.follow.get(x).has(s)) {
+                                        _this.follow.get(x).add(s);
+                                        flag = false;
+                                    }
+                                });
+                                if (!_this.nullable.has(y)) {
+                                    loop_flag = true;
+                                    break;
+                                }
+                            }
+                            console.log(_this.follow);
+                            if (!loop_flag) {
+                                if (k == "program") {
+                                    if (!_this.follow.has(x))
+                                        _this.follow.set("program", new Set());
+                                }
+                                _this.follow.get(k).forEach(function (value) {
+                                    if (!_this.follow.get(x).has(value)) {
+                                        _this.follow.get(x).add(value);
+                                        flag = true;
+                                    }
+                                });
+                            }
+                        }
+                    };
+                    for (var i = 0; i < P.length; i++) {
+                        _loop_4(i);
+                    }
+                });
+            });
+            console.log(this_3.follow);
+            //this.follow.delete("WHITESPACE");'
+            //this.follow.delete("x");
+            this_3.terminals.forEach(function (v, k) {
+                if (_this.follow.has(v[0])) {
+                    _this.follow["delete"](v[0]);
+                }
+            });
+            console.log(this_3.follow);
+            //this.follow.delete("S");
+            if (flag) {
+                return "break";
+            }
+        };
+        var this_3 = this;
+        //console.log(this.follow);
+        while (true) {
+            var state_3 = _loop_3();
+            if (state_3 === "break")
+                break;
+        }
+        return this.follow;
     };
     return Grammar;
 }());
