@@ -61,7 +61,7 @@ export class Grammar {
                 continue;
             }
             if (flag) {
-                this.start = input2[0];
+                this.start = input2[0].trim();
                 flag = false;
             }
             /*let input3 = input2[1].split("|");
@@ -194,21 +194,22 @@ export class Grammar {
     getFollow(): Map<string, Set<string>> {
         let set = new Set<string>();
         set.add("$");
-        this.follow.set(this.start, set);
-        //console.log(this.follow);
+        console.log(this.nonterminals);
+        this.nonterminals.forEach((prodlist, N) => {
+            console.log(N);
+            this.follow.set(N, new Set<string>()); 
+        });
+        this.follow.get(this.start).add("$");
+        this.follow.delete("WHITESPACE");
+        console.log("initial");
+        console.log(this.follow);
         while (true) {
             let flag = true;
             this.nonterminals.forEach((v, k) => {
                 v.forEach((P: string[]) => {
-                    if (P.length == 1 && P[0] == "lambda") {
-                        P = new Array<string>();
-                    }
                     for (let i = 0; i < P.length; i++) {
                         let loop_flag = false;
                         let x = P[i];
-                        if (!this.follow.has(x)) {
-                            this.follow.set(x, new Set());
-                        }
                         if (this.nonterminals.has(x)) {
                             for (let j = i + 1; j < P.length; j++) {
                                 let y = P[j];
@@ -223,37 +224,30 @@ export class Grammar {
                                     break;
                                 }
                             }
-                            console.log(this.follow);
+                            //console.log(this.follow);
                             if (!loop_flag) {
-                                if (k == "program") {
-                                    if (!this.follow.has(x))
-                                        this.follow.set("program", new Set());
-                                }
                                 this.follow.get(k).forEach((value) => {
                                     if (!this.follow.get(x).has(value)) {
                                         this.follow.get(x).add(value);
-                                        flag = true;
+                                        flag = false;
                                     }
-                                })
+                                });
                             }
                         }
                     }
                 });
             });
-            console.log(this.follow);
-            //this.follow.delete("WHITESPACE");'
-            //this.follow.delete("x");
-            this.terminals.forEach((v, k) => {
-                if (this.follow.has(v[0])) {
-                    this.follow.delete(v[0]);
-                }
-            });
-            console.log(this.follow);
-            //this.follow.delete("S");
             if (flag) {
                 break;
             }
         }
+        /*this.follow.forEach((v, k) => {
+            if (this.follow.get(k).size == 0) {
+                this.follow.delete(k);
+            }
+        });*/
+        console.log("final");
+        console.log(this.follow);
         return this.follow;
     }
 }
